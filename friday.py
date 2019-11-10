@@ -1,3 +1,5 @@
+from slackclient.server import SlackConnectionError
+
 from basebot import BaseBot
 import time
 import trains as trains
@@ -25,22 +27,34 @@ class Friday(BaseBot):
         # get cta status
         if command.lower() == "get cta status":
             train_status = trains.TrainStatus()
-            response = train_status.getStatus()
+            response = train_status.get_status()
 
         # add more commands
 
         self.slack_client.api_call(
             "chat.postMessage",
             channel=channel,
-            text=response or self.default_response.format(caller)
+            text="" or self.default_response.format(caller),
+            blocks=response
         )
 
     def bot_it_up(self):
         while True:
-            command, channel, caller = self.parse_event(self.slack_client.rtm_read())
-            if command:
-                self.handle_command(command, channel, caller)
-            time.sleep(self.RTM_READ_DELAY)
+            try:
+                command, channel, caller = self.parse_event(self.slack_client.rtm_read())
+                if command:
+                    self.handle_command(command, channel, caller)
+                time.sleep(self.RTM_READ_DELAY)
+            except SlackConnectionError as sce:
+                print("Connection Error: {}".format(sce.message))
+                self.connect_client()
+            except ConnectionResetError as cre:
+                print("Connection Reset Error: {}".format(cre.message))
+                self.connect_client()
+            except Exception as ex:
+                print("Generic Exception Caught: {}".format(ex.message))
+                self.connect_client()
+
 
 
 if __name__ == "__main__":
