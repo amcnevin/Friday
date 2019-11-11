@@ -3,12 +3,11 @@ from slackclient.server import SlackConnectionError
 from basebot import BaseBot
 import time
 import trains as trains
-
+import commands
 class Friday(BaseBot):
 
     friday_id = None
-    COMMAND_LIST = ["get command list", "get cta status", ]
-    default_response = "Not sure what you mean {}, try 'get command list'"
+    COMMAND_LIST = ["get command list", "get cta status", "get bus times", ]
 
     def __init__(self):
         super().__init__()
@@ -19,24 +18,20 @@ class Friday(BaseBot):
         return self.friday_id
 
     def handle_command(self, command, channel, caller):
-        response = None
         # get command list
         if command.lower() == "get command list":
-            response = self.COMMAND_LIST
+            commands.get_command_list(self.slack_client, channel, caller, self.COMMAND_LIST)
 
         # get cta status
         if command.lower() == "get cta status":
-            train_status = trains.TrainStatus()
-            response = train_status.get_status()
+            commands.get_cta_status(self.slack_client, channel, caller)
+
+        if command.lower() == "get bus times":
+            commands.get_bus_status(self.slack_client, channel, caller)
 
         # add more commands
 
-        self.slack_client.api_call(
-            "chat.postMessage",
-            channel=channel,
-            text="" or self.default_response.format(caller),
-            blocks=response
-        )
+
 
     def bot_it_up(self):
         while True:
