@@ -104,5 +104,5 @@ class CTAStatus:
             section["text"]["type"] = "mrkdwn"
             section["text"]["text"] = '*{}* - {} at {}: is delayed? {}'.format(prediction[0], prediction[1], prediction[2], prediction[3])
             sections.append(section)
-        print(json.dumps(sections))
+
         return json.dumps(sections)

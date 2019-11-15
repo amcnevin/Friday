@@ -2,8 +2,9 @@ from slackclient.server import SlackConnectionError
 
 from basebot import BaseBot
 import time
-import trains as trains
 import commands
+
+
 class Friday(BaseBot):
 
     friday_id = None
@@ -30,8 +31,6 @@ class Friday(BaseBot):
             commands.get_bus_status(self.slack_client, channel, caller)
 
         # add more commands
-
-
 
     def bot_it_up(self):
         while True:

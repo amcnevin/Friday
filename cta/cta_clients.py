@@ -96,7 +96,6 @@ class CTATrainClient:
     def get_arrivals(self, mapid=None, stpid=None, max=None, rt=None):
         url = self.BASE_URL + "ttarrivals.aspx"
         params = self._get_base_params()
-        # TODO enforce conditional args
         params["mapid"] = mapid
         params["stpid"] = stpid
         params["max"] = max
