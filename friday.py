@@ -41,15 +41,14 @@ class Friday(BaseBot):
                     self.handle_command(command, channel, caller)
                 time.sleep(self.RTM_READ_DELAY)
             except SlackConnectionError as sce:
-                print("Connection Error: {}".format(sce.message))
+                print("Connection Error: {}".format(sce))
                 self.connect_client()
             except ConnectionResetError as cre:
-                print("Connection Reset Error: {}".format(cre.message))
+                print("Connection Reset Error: {}".format(cre))
                 self.connect_client()
             except Exception as ex:
-                print("Generic Exception Caught: {}".format(ex.message))
+                print("Generic Exception Caught: {}".format(ex))
                 self.connect_client()
-
 
 
 if __name__ == "__main__":

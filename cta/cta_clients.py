@@ -28,7 +28,6 @@ class CTABusClient:
     def get_vehicles(self, vid=None, rt=None, tmres=None):
         url = self.BASE_URL + "getvehicles"
         params = self._get_base_params()
-        # TODO enforce conditional args
         params["vid"] = vid
         params["rt"] = rt
         params["tmres"] = tmres
@@ -55,7 +54,6 @@ class CTABusClient:
     def get_patterns(self, pid=None, rt=None):
         url = self.BASE_URL + "getpatterns"
         params = self._get_base_params()
-        # TODO enforce conditional args
         params["pid"] = pid
         params["rt"] = rt
         return requests.get(url, params)
@@ -63,7 +61,6 @@ class CTABusClient:
     def get_predictions(self, stpid=None, rt=None, vid=None, top=None):
         url = self.BASE_URL + "getpredictions"
         params = self._get_base_params()
-        # TODO enforce conditional args
         params["stpid"] = stpid
         params["rt"] = rt
         params["vid"] = vid
@@ -73,7 +70,6 @@ class CTABusClient:
     def get_service_bulletins(self, rt=None, rtdir=None, stpid=None):
         url = self.BASE_URL + "getservicebulletins"
         params = self._get_base_params()
-        # TODO enforce conditional args
         params["rt"] = rt
         params["rtdir"] = rtdir
         params["stpid"] = stpid
